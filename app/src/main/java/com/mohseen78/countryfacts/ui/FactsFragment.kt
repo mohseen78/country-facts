@@ -5,21 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 
 import com.mohseen78.countryfacts.R
+import com.mohseen78.countryfacts.adapter.FactsAdapter
+import com.mohseen78.countryfacts.databinding.FragmentFactsBinding
+import com.mohseen78.countryfacts.viewmodel.FactsViewModel
 
-/**
- * A simple [Fragment] subclass.
- */
 class FactsFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_facts, container, false)
+    private lateinit var factsViewModel: FactsViewModel
+
+    private lateinit var binding: FragmentFactsBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_facts, container, false)
+
+        binding.lifecycleOwner = this
+
+        factsViewModel = ViewModelProviders.of(this).get(FactsViewModel::class.java)
+
+        binding.viewModel = factsViewModel
+
+        binding.factsRv.adapter= FactsAdapter()
+
+        return binding.root
     }
-
-
 }
