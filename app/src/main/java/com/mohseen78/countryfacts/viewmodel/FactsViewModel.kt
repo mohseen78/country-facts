@@ -15,24 +15,33 @@ enum class FactsApiStatus { LOADING, ERROR, DONE }
 
 class FactsViewModel : ViewModel(){
 
+    // Internal MutableLiveData to handle navigation
     private val _status = MutableLiveData<FactsApiStatus>()
 
+    // The external immutable LiveData for the navigation
     val status: LiveData<FactsApiStatus>
         get() = _status
 
+    // Internal MutableLiveData for the title
     private var _title = MutableLiveData<String>()
+
+    // The external immutable LiveData for the title
     val title: LiveData<String>
         get() = _title
 
+    // Internal MutableLiveData for the Fact Property
     private val _properties = MutableLiveData<List<Fact>>()
 
+    // The external immutable LiveData for the Fact Property
     val properties: LiveData<List<Fact>>
         get() = _properties
 
+    //Call getFactsProperties() on init so we can display status immediately.
     init {
         getFactsProperties()
     }
 
+    //Gets Facts property information from the API Retrofit service and updates the _properties List
     private fun getFactsProperties(){
         _status.value = FactsApiStatus.LOADING
         FactsApi.retrofitService.getProperties().enqueue(object: Callback<FactsList>{
@@ -49,6 +58,7 @@ class FactsViewModel : ViewModel(){
         })
     }
 
+    //Gets Facts property information when swipe refreshed and updates the _properties List
     fun refreshFacts (){
         getFactsProperties()
     }

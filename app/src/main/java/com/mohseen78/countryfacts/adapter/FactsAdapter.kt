@@ -10,6 +10,7 @@ import com.mohseen78.countryfacts.model.Fact
 
 class FactsAdapter() : ListAdapter<Fact, FactsAdapter.FactViewHolder>(DiffCallback) {
 
+
     class FactViewHolder(private var binding: ItemFactBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -18,6 +19,7 @@ class FactsAdapter() : ListAdapter<Fact, FactsAdapter.FactViewHolder>(DiffCallba
             binding.executePendingBindings()
         }
     }
+
 
     companion object DiffCallback : DiffUtil.ItemCallback<Fact>() {
         override fun areItemsTheSame(oldItem: Fact, newItem: Fact): Boolean {

@@ -19,6 +19,9 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Fact>?) {
     adapter.submitList(data)
 }
 
+/**
+ * Uses the Glide library to load an image by URL into an [ImageView]
+ */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
@@ -34,6 +37,9 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+/**
+ * Updates SwipeRefreshLayout based on FactsApiStatus Live Data
+ */
 @BindingAdapter("factsApiStatus")
 fun bindStatus(swipeRefresh: SwipeRefreshLayout, status: FactsApiStatus?) {
     when (status) {
@@ -48,10 +54,3 @@ fun bindStatus(swipeRefresh: SwipeRefreshLayout, status: FactsApiStatus?) {
         }
     }
 }
-
-//@BindingAdapter("appTitle")
-//fun appTitle(toolbar: Toolbar, title: String) {
-//   title.let {
-//       toolbar.title  = title
-//   }
-//}

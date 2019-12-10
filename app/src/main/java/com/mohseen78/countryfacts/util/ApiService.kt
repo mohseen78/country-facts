@@ -14,17 +14,24 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
+//Retrofit builder to build a retrofit object
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
     .build()
 
+// interface to get [getFactsProperties]
 interface ApiService {
     @GET("facts.json")
     fun getProperties(): Call<FactsList>
 }
 
+
+// public Api object that exposes the lazy-initialized Retrofit service
 object FactsApi {
-    val retrofitService : ApiService by lazy { retrofit.create(
-        ApiService::class.java) }
+    val retrofitService: ApiService by lazy {
+        retrofit.create(
+            ApiService::class.java
+        )
+    }
 }

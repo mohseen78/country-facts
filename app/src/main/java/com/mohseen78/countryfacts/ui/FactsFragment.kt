@@ -24,13 +24,14 @@ class FactsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_facts, container, false)
 
+        // Allowing Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
 
+        //initialize FactsViewModel
         factsViewModel = ViewModelProviders.of(this).get(FactsViewModel::class.java)
 
+        // Giving the binding access to the FactsViewModel
         binding.viewModel = factsViewModel
-
-//        (activity as AppCompatActivity).supportActionBar!!.title = factsViewModel.title.toString()
 
         binding.factsRv.adapter= FactsAdapter()
 
@@ -39,6 +40,7 @@ class FactsFragment : Fragment() {
         return binding.root
     }
 
+    // adding Listener to SwipeToRefresh
     private fun initSwipeToRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
             factsViewModel.refreshFacts()
