@@ -20,6 +20,9 @@ class FactsViewModel : ViewModel(){
     val status: LiveData<FactsApiStatus>
         get() = _status
 
+    private var _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
 
     private val _properties = MutableLiveData<List<Fact>>()
 
@@ -27,7 +30,6 @@ class FactsViewModel : ViewModel(){
         get() = _properties
 
     init {
-        Log.i("FactsViewModel", "FactsViewModel Created")
         getFactsProperties()
     }
 
@@ -40,11 +42,14 @@ class FactsViewModel : ViewModel(){
             }
 
             override fun onResponse(call: Call<FactsList>, response: Response<FactsList>) {
-                Log.i("FactsViewModeonResponse", "" + response.body())
                 _properties.value = response.body()!!.facts
+                _title.value = response.body()!!.title
                 _status.value = FactsApiStatus.DONE
-
             }
         })
+    }
+
+    fun refreshFacts (){
+        getFactsProperties()
     }
 }

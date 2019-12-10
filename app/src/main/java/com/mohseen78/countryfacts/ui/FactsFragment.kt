@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 
@@ -29,8 +30,18 @@ class FactsFragment : Fragment() {
 
         binding.viewModel = factsViewModel
 
+//        (activity as AppCompatActivity).supportActionBar!!.title = factsViewModel.title.toString()
+
         binding.factsRv.adapter= FactsAdapter()
 
+        initSwipeToRefresh()
+
         return binding.root
+    }
+
+    private fun initSwipeToRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            factsViewModel.refreshFacts()
+        }
     }
 }
