@@ -26,7 +26,6 @@ interface ApiService {
     fun getProperties(): Call<FactsList>
 }
 
-
 // public Api object that exposes the lazy-initialized Retrofit service
 object FactsApi {
     val retrofitService: ApiService by lazy {

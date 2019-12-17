@@ -4,9 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mohseen78.countryfacts.MainActivity
 import com.mohseen78.countryfacts.model.Fact
 import com.mohseen78.countryfacts.model.FactsList
+import com.mohseen78.countryfacts.util.ConnectivityReceiver
 import com.mohseen78.countryfacts.util.FactsApi
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,8 +22,8 @@ class FactsViewModel : ViewModel(){
     private val _status = MutableLiveData<FactsApiStatus>()
 
     // The external immutable LiveData for the navigation
-    val status: LiveData<FactsApiStatus>
-        get() = _status
+     val status: LiveData<FactsApiStatus>
+       get() = _status
 
     // Internal MutableLiveData for the title
     private var _title = MutableLiveData<String>()
@@ -33,7 +36,7 @@ class FactsViewModel : ViewModel(){
     private val _properties = MutableLiveData<List<Fact>>()
 
     // The external immutable LiveData for the Fact Property
-    val properties: LiveData<List<Fact>>
+     val properties: LiveData<List<Fact>>
         get() = _properties
 
     //Call getFactsProperties() on init so we can display status immediately.
@@ -51,9 +54,11 @@ class FactsViewModel : ViewModel(){
             }
 
             override fun onResponse(call: Call<FactsList>, response: Response<FactsList>) {
-                _properties.value = response.body()!!.facts
-                _title.value = response.body()!!.title
-                _status.value = FactsApiStatus.DONE
+                if(response.isSuccessful) {
+                    _properties.value = response.body()!!.facts
+                    _title.value = response.body()!!.title
+                    _status.value = FactsApiStatus.DONE
+                }
             }
         })
     }
